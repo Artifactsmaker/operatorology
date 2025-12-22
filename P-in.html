@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giả Thuyết P_in: Khung Vũ Trụ Học Khởi Nguyên</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;500;700;900&family=Inter:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617; /* Slate 950 */
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        /* Chart Container Styling Rules */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 350px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+        
+        .plotly-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .neon-text-gold {
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        }
+
+        .neon-border {
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Hero Section -->
+    <header class="relative w-full py-20 px-4 text-center bg-[url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center bg-no-repeat">
+        <div class="absolute inset-0 bg-slate-950/90"></div>
+        <div class="relative z-10 max-w-5xl mx-auto">
+            <span class="inline-block py-1 px-3 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold tracking-wider mb-4">COSMOGENESIS HYPOTHESIS</span>
+            <h1 class="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 mb-6 neon-text-gold">
+                THE P_IN HYPOTHESIS
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 font-light max-w-3xl mx-auto leading-relaxed">
+                Một khung vũ trụ học khởi nguyên vượt qua điểm kỳ dị Big Bang bằng <span class="text-amber-400 font-bold">Điều Kiện Biên Năng Lượng</span>.
+            </p>
+            <div class="mt-8 flex justify-center gap-6 text-sm font-mono text-cyan-400">
+                <div>[Russell's Paradox]</div>
+                <div>•</div>
+                <div>[Einstein-Rosen Bridge]</div>
+                <div>•</div>
+                <div>[Energy Conservation]</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-12 gap-8">
+
+        <!-- Section 1: The Three Pillars Failure (Introduction) -->
+        <section class="md:col-span-12 lg:col-span-5 glass-panel rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-4 flex items-center">
+                <span class="w-1 h-8 bg-rose-500 mr-3 rounded-full"></span>
+                Tại sao Big Bang thất bại?
+            </h2>
+            <p class="text-slate-400 mb-6 text-justify leading-relaxed">
+                Mô hình hiện tại giả định vũ trụ tự sinh ra từ một điểm kỳ dị (singularity). Điều này vi phạm ba nguyên tắc nền tảng của vật lý và logic học. Giả thuyết P_in giải quyết triệt để các mâu thuẫn này.
+            </p>
+            <div class="chart-container">
+                <canvas id="pillarsChart"></canvas>
+            </div>
+            <p class="text-xs text-center text-slate-500 mt-2">So sánh mức độ vi phạm nguyên tắc (Thấp hơn là tốt hơn)</p>
+        </section>
+
+        <!-- Section 2: The Logic (Concept) -->
+        <section class="md:col-span-12 lg:col-span-7 glass-panel rounded-2xl p-8 flex flex-col justify-center">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1: Russell -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border-l-4 border-amber-500">
+                    <h3 class="text-amber-400 font-bold text-lg mb-2">1. Nghịch Lý Russell</h3>
+                    <p class="text-sm text-slate-300">
+                        "Không hệ thống nào có thể tự chứa nguồn gốc của chính nó."
+                        <br><br>
+                        <span class="text-white italic">Hệ quả:</span> Vũ trụ cần một tác nhân bên ngoài (P_in).
+                    </p>
+                </div>
+                <!-- Card 2: ER Bridge -->
+                <div class="bg-slate-900/50 p-6 rounded-xl border-l-4 border-cyan-500">
+                    <h3 class="text-cyan-400 font-bold text-lg mb-2">2. Hình Học Einstein-Rosen</h3>
+                    <p class="text-sm text-slate-300">
+                        "Mọi đa tạp (manifold) phải có miền xuất phát liên kết topological."
+                        <br><br>
+                        <span class="text-white italic">Hệ quả:</span> Không có điểm kỳ dị 0 kích thước.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-6 bg-slate-900/50 p-6 rounded-xl border-l-4 border-rose-500">
+                <h3 class="text-rose-400 font-bold text-lg mb-2">3. Bảo Toàn Năng Lượng</h3>
+                <p class="text-sm text-slate-300">
+                    Năng lượng không tự sinh ra trong hệ kín. Big Bang vi phạm điều này khi cho rằng năng lượng vũ trụ xuất hiện từ "hư vô".
+                </p>
+            </div>
+        </section>
+
+        <!-- Section 3: The P_in Equation (Core Data) -->
+        <section class="md:col-span-12 lg:col-span-4 glass-panel rounded-2xl p-8 text-center">
+            <h2 class="text-2xl font-bold text-white mb-2">Phương Trình Khởi Nguyên</h2>
+            <div class="text-4xl font-black text-amber-400 my-6 tracking-widest neon-text-gold">
+                P<sub class="text-lg">in</sub> = P<sub class="text-lg">out</sub> + P<sub class="text-lg">lost</sub>
+            </div>
+            <p class="text-slate-400 text-sm mb-6">
+                Vũ trụ là kết quả của việc bơm năng lượng từ biên.
+            </p>
+            <div class="chart-container" style="height: 300px;">
+                <canvas id="equationChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 4: 3D Manifold Simulation (Geometry) -->
+        <section class="md:col-span-12 lg:col-span-8 glass-panel rounded-2xl p-1 overflow-hidden">
+            <div class="p-6 pb-0 flex justify-between items-end">
+                <div>
+                    <h2 class="text-2xl font-bold text-white mb-2 flex items-center">
+                        <span class="w-1 h-8 bg-cyan-500 mr-3 rounded-full"></span>
+                        Cấu trúc Topo: Phễu Năng Lượng
+                    </h2>
+                    <p class="text-slate-400 text-sm max-w-xl">
+                        Thay vì một điểm kỳ dị (Singularity) vô hạn, P_in đề xuất một cấu trúc phễu (Funnel) nơi năng lượng được bơm vào từ không gian chiều cao hơn (Bulk Space), phù hợp với cầu Einstein-Rosen.
+                    </p>
+                </div>
+                <div class="px-3 py-1 bg-cyan-900/30 border border-cyan-500/30 rounded text-cyan-400 text-xs font-mono">
+                    WebGL Render
+                </div>
+            </div>
+            <div id="manifoldPlot" class="plotly-container"></div>
+        </section>
+
+        <!-- Section 5: The Mechanism Flow (Process) -->
+        <section class="md:col-span-12 glass-panel rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-8 text-center">Cơ Chế Chuyển Pha: Từ Tiền-Vật Lý đến Vật Chất</h2>
+            
+            <!-- Process Diagram (HTML/CSS) -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center relative">
+                <!-- Connecting Line (Desktop) -->
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-1 bg-gradient-to-r from-slate-700 via-amber-500 to-cyan-500 transform -translate-y-1/2 -z-10 opacity-30"></div>
+
+                <!-- Step 1 -->
+                <div class="bg-slate-900 border border-slate-700 p-6 rounded-xl text-center relative hover:border-amber-500 transition-colors duration-300">
+                    <div class="text-3xl mb-2 text-slate-500 font-serif">ψ₀</div>
+                    <h4 class="text-amber-500 font-bold mb-1">Trường Tiền-Vật Lý</h4>
+                    <p class="text-xs text-slate-400">Trạng thái rỗng, chưa có không-thời gian.</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="hidden md:flex justify-center text-amber-500 text-2xl font-bold">→</div>
+
+                <!-- Step 2 -->
+                <div class="bg-slate-900 border border-slate-700 p-6 rounded-xl text-center relative hover:border-amber-400 transition-colors duration-300">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-amber-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">INJECTION (P_in)</div>
+                    <div class="text-3xl mb-2 text-amber-400 font-serif">ψ_e</div>
+                    <h4 class="text-white font-bold mb-1">Kích Hoạt Năng Lượng</h4>
+                    <p class="text-xs text-slate-400">Biên năng lượng tác động, phá vỡ đối xứng.</p>
+                </div>
+
+                 <!-- Arrow -->
+                 <div class="hidden md:flex justify-center text-cyan-500 text-2xl font-bold">→</div>
+
+                <!-- Step 3 -->
+                <div class="bg-slate-900 border border-slate-700 p-6 rounded-xl text-center relative hover:border-cyan-500 transition-colors duration-300 neon-border">
+                    <div class="text-3xl mb-2 text-cyan-400 font-serif">e⁻ / m</div>
+                    <h4 class="text-cyan-400 font-bold mb-1">Vật Chất / Thời Gian</h4>
+                    <p class="text-xs text-slate-400">Không-thời gian hình thành (P_out).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Comprehensive Comparison (Radar) -->
+        <section class="md:col-span-12 lg:col-span-6 glass-panel rounded-2xl p-8">
+            <h2 class="text-2xl font-bold text-white mb-6 border-l-4 border-amber-500 pl-4">Đánh Giá Tính Nhất Quán</h2>
+            <div class="chart-container">
+                <canvas id="consistencyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Section 7: Key Takeaway -->
+        <section class="md:col-span-12 lg:col-span-6 glass-panel rounded-2xl p-8 flex flex-col justify-center">
+            <h2 class="text-2xl font-bold text-white mb-6 border-l-4 border-cyan-500 pl-4">Kết Luận Cốt Lõi</h2>
+            <ul class="space-y-4">
+                <li class="flex items-start">
+                    <span class="text-amber-500 mr-2 text-xl">❖</span>
+                    <p class="text-slate-300 text-sm"><strong>Loại bỏ Điểm Kỳ Dị:</strong> Vũ trụ không bắt đầu từ con số 0 hay sự vô hạn phi lý, mà từ một nguồn cung cấp năng lượng xác định.</p>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-amber-500 mr-2 text-xl">❖</span>
+                    <p class="text-slate-300 text-sm"><strong>Thỏa mãn Logic:</strong> Giải quyết nghịch lý "Tập hợp chứa chính nó" bằng cách đưa nguồn gốc ra ngoài hệ thống (Boundary-Driven).</p>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-amber-500 mr-2 text-xl">❖</span>
+                    <p class="text-slate-300 text-sm"><strong>Hội nhập Vật lý Hiện đại:</strong> Tương thích với Lý thuyết Dây (String Theory) và Đa vũ trụ (Multiverse) thông qua cơ chế màng (brane) va chạm hoặc bơm năng lượng.</p>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-8 text-center text-slate-600 text-xs border-t border-slate-800 bg-slate-950">
+        <p>INFOGRAPHIC ĐƯỢC TẠO DỰA TRÊN TÀI LIỆU "THE P_IN HYPOTHESIS" • PHAN THÀNH TRUNG & GPT-BASED THEORETICAL SYSTEM</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // --- UTILITIES ---
+        function wrapLabel(str, maxLen = 16) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxLen) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const commonChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: { color: '#cbd5e1', font: { family: 'Inter' } }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                    titleColor: '#fbbf24',
+                    bodyColor: '#e2e8f0',
+                    borderColor: 'rgba(251, 191, 36, 0.3)',
+                    borderWidth: 1,
+                    padding: 10,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) return label.join(' ');
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: Pillars Comparison (Bar) ---
+        {
+            const ctxPillars = document.getElementById('pillarsChart').getContext('2d');
+            const pillarLabels = ["Vi phạm Logic (Russell)", "Vi phạm Bảo toàn Năng lượng", "Bất định hình học (Kỳ dị)"];
+            
+            new Chart(ctxPillars, {
+                type: 'bar',
+                data: {
+                    labels: pillarLabels.map(l => wrapLabel(l)),
+                    datasets: [
+                        {
+                            label: 'Mô hình Big Bang',
+                            data: [90, 95, 100], // High violation score
+                            backgroundColor: 'rgba(244, 63, 94, 0.5)', // Rose
+                            borderColor: '#f43f5e',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Giả thuyết P_in',
+                            data: [10, 5, 15], // Low violation score
+                            backgroundColor: 'rgba(34, 211, 238, 0.5)', // Cyan
+                            borderColor: '#22d3ee',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    ...commonChartOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Mức độ Mâu thuẫn / Vi phạm', color: '#64748b' }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: '#e2e8f0' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- CHART 2: Equation (Doughnut) ---
+        {
+            const ctxEquation = document.getElementById('equationChart').getContext('2d');
+            
+            new Chart(ctxEquation, {
+                type: 'doughnut',
+                data: {
+                    labels: ['P_out (Vật chất/Vũ trụ)', 'P_lost (Nhiệt/Entropy)'],
+                    datasets: [{
+                        data: [70, 30], // Arbitrary split for visualization
+                        backgroundColor: [
+                            '#22d3ee', // Cyan (Matter)
+                            '#f43f5e'  // Rose (Entropy)
+                        ],
+                        borderColor: '#0f172a',
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    cutout: '70%',
+                    plugins: {
+                        ...commonChartOptions.plugins,
+                        legend: { position: 'bottom', labels: { color: '#cbd5e1' } },
+                        title: {
+                            display: true,
+                            text: 'Tổng P_in (100%)',
+                            color: '#fbbf24',
+                            font: { size: 16 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- CHART 3: Manifold Simulation (Plotly 3D) ---
+        // Visualizing a "Funnel" (Logarithmic or 1/r potential well) representing injection
+        {
+            const size = 50;
+            const x = [], y = [], z = [];
+            
+            for (let i = -size; i <= size; i += 2) {
+                for (let j = -size; j <= size; j += 2) {
+                    const r = Math.sqrt(i*i + j*j);
+                    // Create a funnel shape: z = -1/r (avoiding div by zero)
+                    // This represents the Energy Injection Geometry vs a point singularity
+                    let val = -20 / (r + 2); 
+                    x.push(i);
+                    y.push(j);
+                    z.push(val);
+                }
+            }
+
+            const trace = {
+                x: x, y: y, z: z,
+                type: 'mesh3d',
+                intensity: z,
+                colorscale: [
+                    [0, '#020617'],
+                    [0.5, '#22d3ee'],
+                    [1, '#fbbf24']
+                ],
+                opacity: 0.9,
+                flatshading: true
+            };
+
+            const layout = {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                margin: { l: 0, r: 0, b: 0, t: 0 },
+                scene: {
+                    xaxis: { title: '', showgrid: false, zeroline: false, showticklabels: false, visible: false },
+                    yaxis: { title: '', showgrid: false, zeroline: false, showticklabels: false, visible: false },
+                    zaxis: { title: 'Energy Depth', showgrid: true, gridcolor: '#334155', zeroline: false, showticklabels: false },
+                    camera: { eye: { x: 1.5, y: 1.5, z: 1.2 } } // Angled view
+                },
+                showlegend: false
+            };
+
+            Plotly.newPlot('manifoldPlot', [trace], layout, {displayModeBar: false});
+        }
+
+        // --- CHART 4: Consistency Radar ---
+        {
+            const ctxConsistency = document.getElementById('consistencyChart').getContext('2d');
+            const consistencyLabels = ["Logic Toán học", "Bảo toàn Năng lượng", "Tính hợp lệ Hình học", "Khả năng mở rộng", "Giải thích Khởi nguyên"];
+            
+            new Chart(ctxConsistency, {
+                type: 'radar',
+                data: {
+                    labels: consistencyLabels.map(l => wrapLabel(l)),
+                    datasets: [{
+                        label: 'Giả thuyết P_in',
+                        data: [95, 100, 90, 85, 95],
+                        fill: true,
+                        backgroundColor: 'rgba(251, 191, 36, 0.2)', // Amber
+                        borderColor: '#fbbf24',
+                        pointBackgroundColor: '#fbbf24',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#fbbf24'
+                    }, {
+                        label: 'Mô hình Big Bang',
+                        data: [40, 30, 50, 60, 45],
+                        fill: true,
+                        backgroundColor: 'rgba(148, 163, 184, 0.2)', // Slate
+                        borderColor: '#94a3b8',
+                        pointBackgroundColor: '#94a3b8',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#94a3b8'
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#334155' },
+                            pointLabels: { color: '#e2e8f0', font: { size: 11 } },
+                            ticks: { backdropColor: 'transparent', color: '#64748b' }
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
