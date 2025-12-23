@@ -8,8 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- MathJax for rendering LaTeX math -->
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <!-- Marked for Markdown rendering -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
         window.MathJax = {
             tex: {
@@ -112,139 +110,6 @@
             background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
         }
 
-        /* --- AI CHAT WIDGET STYLES --- */
-        .ai-widget {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 400px;
-            max-width: 90vw;
-            height: 550px;
-            max-height: 80vh;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(249, 115, 22, 0.3);
-            border-radius: 1rem;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            transform: translateY(120%);
-            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 50;
-            overflow: hidden;
-        }
-
-        .ai-widget.open {
-            transform: translateY(0);
-        }
-
-        .ai-toggle-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
-            z-index: 51;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-
-        .ai-toggle-btn:hover {
-            transform: scale(1.1) rotate(15deg);
-            box-shadow: 0 0 30px rgba(249, 115, 22, 0.6);
-        }
-
-        .ai-toggle-btn.active {
-            transform: rotate(45deg);
-            background: #ef4444;
-            border-color: #ef4444;
-        }
-
-        .chat-header {
-            padding: 1rem;
-            background: rgba(15, 23, 42, 0.8);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            scroll-behavior: smooth;
-        }
-
-        .message {
-            max-width: 85%;
-            padding: 0.75rem 1rem;
-            border-radius: 0.75rem;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .user-msg {
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: #e0f2fe;
-            align-self: flex-end;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .ai-msg {
-            background: rgba(249, 115, 22, 0.1);
-            border: 1px solid rgba(249, 115, 22, 0.2);
-            color: #ffedd5;
-            align-self: flex-start;
-            border-bottom-left-radius: 0.25rem;
-        }
-
-        .ai-msg strong { color: #fb923c; font-weight: 700; }
-        .ai-msg em { color: #fcd34d; font-style: normal; }
-        .ai-msg code { background: rgba(0,0,0,0.3); padding: 2px 4px; borderRadius: 4px; font-family: monospace; }
-
-        .typing-indicator span {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background-color: #fb923c;
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out both;
-            margin: 0 2px;
-        }
-        
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Markdown Styles within Chat */
-        .ai-msg p { margin-bottom: 0.5rem; }
-        .ai-msg p:last-child { margin-bottom: 0; }
-        .ai-msg ul { list-style-type: disc; padding-left: 1.2rem; margin-bottom: 0.5rem; }
-        .ai-msg ol { list-style-type: decimal; padding-left: 1.2rem; margin-bottom: 0.5rem; }
-
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
@@ -289,7 +154,7 @@
                     
                     <div class="bg-black/40 px-4 py-3 rounded border border-red-500/30 flex items-center justify-center flex-wrap gap-2">
                         <span class="text-red-400 font-mono text-lg">$$p_{in} = 0 \Rightarrow$$</span>
-                        <span class="text-red-400 font-bold font-heading text-lg">KHÔNG CÓ HIỆN THỰC ỔN ĐỊNH</span>
+                        <span class="text-red-400 font-bold font-heading text-lg">KHÔNG HIỆN THỰC</span>
                     </div>
 
                     <p class="text-[10px] text-slate-500 mt-2 italic">"Tồn tại là trạng thái phải được cung cấp liên tục."</p>
@@ -305,7 +170,7 @@
                 <!-- Possibility -->
                 <div class="p-4 rounded-lg bg-blue-900/10 border border-blue-500/30 hover:bg-blue-900/20 transition">
                     <div class="flex justify-between items-center mb-2">
-                        <h3 class="text-blue-400 font-bold font-heading normal-case">Miền Khả Thể (ψₑ)</h3>
+                        <h3 class="text-blue-400 font-bold font-heading normal-case">Miền Khả Thể ($\psi_e$)</h3>
                         <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">Chưa nén</span>
                     </div>
                     <ul class="text-xs text-slate-400 list-disc list-inside space-y-1">
@@ -336,7 +201,7 @@
         <!-- 3. GOOGOL GEAR DIAGRAM -->
         <section class="md:col-span-12 lg:col-span-7 glass-card p-6">
             <h2 class="text-2xl font-bold text-white mb-6 border-l-4 border-purple-500 pl-4">Cơ Chế Googol Gear</h2>
-            <p class="text-xs text-slate-400 mb-6">Googol Gear là cấu trúc trừu tượng biến đổi ψₑ thành e⁻ thông qua chuỗi Nén - Khóa.</p>
+            <p class="text-xs text-slate-400 mb-6">Googol Gear là cấu trúc trừu tượng biến đổi $\psi_e$ thành $e^-$ thông qua chuỗi Nén - Khóa.</p>
             
             <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-2 bg-slate-800/30 p-4 rounded-xl border border-slate-700">
                 <!-- Input -->
@@ -488,61 +353,18 @@
         </p>
     </footer>
 
-    <!-- AI Floating Widget -->
-    <button id="aiToggleBtn" class="ai-toggle-btn" title="Trợ Lý Cấu Trúc">
-        ✨
-    </button>
-
-    <div id="aiWidget" class="ai-widget">
-        <!-- Header -->
-        <div class="chat-header">
-            <h3 class="text-orange-400 font-bold flex items-center gap-2">
-                <span>🤖</span> Trợ Lý Cấu Trúc
-            </h3>
-            <div class="flex gap-2">
-                <button id="debateBtn" class="text-xs bg-red-900/50 hover:bg-red-900 text-red-300 px-2 py-1 rounded border border-red-500/30 transition-colors">
-                    ⚔️ Tranh Luận
-                </button>
-            </div>
-        </div>
-
-        <!-- Chat Area -->
-        <div id="chatMessages" class="chat-messages">
-            <div class="message ai-msg">
-                Xin chào! Tôi là AI được thiết kế để giải thích về <strong>Mô hình Googol Gear</strong> và <strong>Giả thuyết P_in</strong>.
-                <br><br>
-                Bạn có thắc mắc gì về:
-                <ul class="mt-2 text-xs">
-                    <li>Tại sao thời gian không thể đảo ngược?</li>
-                    <li>Sự khác biệt giữa "Lựa chọn" và "Nén"?</li>
-                    <li>Điều gì xảy ra nếu $p_{in}$ biến mất?</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Input Area -->
-        <div class="p-4 border-t border-orange-500/20 bg-slate-900/80">
-            <div class="flex gap-2">
-                <input type="text" id="userInput" 
-                    class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-orange-500 transition-colors placeholder-slate-500"
-                    placeholder="Hỏi về vũ trụ...">
-                <button id="sendBtn" class="bg-orange-600 hover:bg-orange-700 text-white p-2 rounded-lg transition-colors disabled:opacity-50">
-                    ➤
-                </button>
-            </div>
-            <div class="text-[10px] text-slate-500 mt-2 text-center">
-                Powered by Google Gemini 2.5 Flash
-            </div>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT FOR CHART & AI -->
+    <!-- JAVASCRIPT FOR CHART -->
     <script>
-        // --- CHART CONFIG ---
+        // Cấu hình Chart.js
         Chart.defaults.font.family = "'Be Vietnam Pro', sans-serif";
         Chart.defaults.color = '#94a3b8';
 
         const ctx = document.getElementById('toyChart').getContext('2d');
+
+        // Dữ liệu Toy Model từ Phụ lục B
+        // M=5, C_0=1, alpha=2, epsilon_0=0, beta=1
+        // C = 1 + 2m, E = m => C_hieu = 1 + 3m
+        // p_in = 8
         const mLevels = [0, 1, 2, 3, 4, 5];
         const costData = mLevels.map(m => 1 + 3 * m);
         const pinData = Array(6).fill(8);
@@ -583,7 +405,9 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { labels: { color: '#cbd5e1', font: { size: 11 } } },
+                    legend: {
+                        labels: { color: '#cbd5e1', font: { size: 11 } }
+                    },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
@@ -599,144 +423,12 @@
                         grid: { color: '#334155' },
                         title: { display: true, text: 'Năng Lượng', color: '#94a3b8' }
                     },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        // --- GEMINI AI INTEGRATION ---
-        const aiToggleBtn = document.getElementById('aiToggleBtn');
-        const aiWidget = document.getElementById('aiWidget');
-        const chatMessages = document.getElementById('chatMessages');
-        const userInput = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const debateBtn = document.getElementById('debateBtn');
-
-        // UI State
-        let isChatOpen = false;
-
-        // Toggle Widget
-        aiToggleBtn.addEventListener('click', () => {
-            isChatOpen = !isChatOpen;
-            if (isChatOpen) {
-                aiWidget.classList.add('open');
-                aiToggleBtn.classList.add('active');
-                aiToggleBtn.innerHTML = '✕';
-                setTimeout(() => userInput.focus(), 300);
-            } else {
-                aiWidget.classList.remove('open');
-                aiToggleBtn.classList.remove('active');
-                aiToggleBtn.innerHTML = '✨';
-            }
-        });
-
-        // Add Message Helper
-        function addMessage(text, isUser = false) {
-            const div = document.createElement('div');
-            div.className = `message ${isUser ? 'user-msg' : 'ai-msg'}`;
-            // Use marked for AI messages to render simple markdown
-            div.innerHTML = isUser ? text : marked.parse(text); 
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Loading Indicator
-        function showLoading() {
-            const div = document.createElement('div');
-            div.className = 'message ai-msg typing-indicator';
-            div.id = 'loadingIndicator';
-            div.innerHTML = '<span></span><span></span><span></span>';
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function removeLoading() {
-            const loader = document.getElementById('loadingIndicator');
-            if (loader) loader.remove();
-        }
-
-        // Gemini API Call
-        async function callGemini(promptText) {
-            const apiKey = ""; // Runtime provided
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-            const systemPrompt = `
-                Bạn là Trợ Lý Cấu Trúc, chuyên gia về Mô hình Googol Gear và Giả thuyết P_in của tác giả Phan Thành Trung.
-                
-                KIẾN THỨC CỐT LÕI:
-                1. Hiện thực không được chọn ngẫu nhiên, mà là những cấu hình "chịu được" nén năng lượng.
-                2. P_in (Năng lượng đầu vào) là đại lượng nền. P_in = 0 thì không có hiện thực.
-                3. Googol Gear gồm: Toán tử Nén (K - giảm tự do, tăng chi phí) và Toán tử Khóa (L - tạo bất khả đảo).
-                4. Vũ trụ là hệ đang được duy trì (maintained), không phải hệ tiến hóa tự do.
-                5. Hạt, Sự sống, Ý thức chỉ là các Mức nén (Compression Levels) khác nhau của P_in.
-                
-                PHONG CÁCH:
-                - Trả lời ngắn gọn, súc tích, mang màu sắc khoa học viễn tưởng/kỹ thuật (blueprint).
-                - Dùng tiếng Việt.
-                - Nếu được hỏi về so sánh, hãy dùng gạch đầu dòng.
-            `;
-
-            const payload = {
-                contents: [{ parts: [{ text: promptText }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] }
-            };
-
-            try {
-                // Retry logic
-                let delay = 1000;
-                for (let i = 0; i < 3; i++) {
-                    try {
-                        const response = await fetch(url, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                        
-                        const data = await response.json();
-                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Hệ thống Googol gặp trục trặc tín hiệu.";
-                    } catch (e) {
-                        if (i === 2) throw e;
-                        await new Promise(r => setTimeout(r, delay));
-                        delay *= 2;
+                    x: {
+                        grid: { display: false }
                     }
                 }
-            } catch (error) {
-                console.error("Gemini API Error:", error);
-                return "Kết nối đến chiều không gian khác bị gián đoạn. Vui lòng thử lại.";
             }
-        }
-
-        // Handlers
-        async function handleSend() {
-            const text = userInput.value.trim();
-            if (!text) return;
-
-            addMessage(text, true);
-            userInput.value = '';
-            showLoading();
-
-            const response = await callGemini(text);
-            removeLoading();
-            addMessage(response);
-        }
-
-        async function handleDebate() {
-            const prompt = "Hãy tạo một đoạn hội thoại tranh luận ngắn (dưới 150 từ) giữa 'Dr. Standard' (Vật lý chuẩn, ủng hộ Big Bang, Entropy thống kê) và 'Dr. Googol' (ủng hộ P_in, Nén-Khóa). Chủ đề: Tại sao thời gian không quay ngược lại?";
-            addMessage("🔄 Đang khởi tạo mô phỏng tranh luận...", true);
-            showLoading();
-            const response = await callGemini(prompt);
-            removeLoading();
-            addMessage(response);
-        }
-
-        sendBtn.addEventListener('click', handleSend);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSend();
         });
-        debateBtn.addEventListener('click', handleDebate);
-
     </script>
 </body>
 </html>
