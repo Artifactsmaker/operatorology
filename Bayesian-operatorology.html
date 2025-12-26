@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayesian vs Operatorology: Hành Trình Từ Ước Lượng Đến Quyết Định</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Custom Palette & Styles -->
+    <style>
+        /* Palette Selected: "Energetic & Playful / Brilliant Blues"
+           Colors: 
+           - Deep Blue: #003f5c
+           - Purple: #58508d
+           - Pink/Red: #bc5090
+           - Orange: #ff6361
+           - Yellow: #ffa600
+        */
+        :root {
+            --color-primary: #003f5c;
+            --color-secondary: #58508d;
+            --color-accent-1: #bc5090;
+            --color-accent-2: #ff6361;
+            --color-accent-3: #ffa600;
+            --bg-light: #f3f4f6;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-light);
+            color: #1f2937;
+        }
+
+        h1, h2, h3 {
+            color: var(--color-primary);
+        }
+
+        .gradient-header {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-xl */
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Chart Container Styling - MANDATORY */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint width */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Base height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Process Flow Styling (CSS Only - No SVG/Mermaid) */
+        .flow-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+        
+        .arrow-down::after {
+            content: "↓";
+            font-size: 2rem;
+            color: var(--color-secondary);
+            display: block;
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+
+        .bayesian-bg { background-color: var(--color-secondary); }
+        .operator-bg { background-color: var(--color-accent-2); }
+    </style>
+    
+    <!-- 
+    SOURCE MATERIAL INTEGRATION PLAN:
+    1. Introduction: Define the dichotomy. Is Bayesian just guessing?
+    2. Concept Definition: Distinguish "Blind Guess" (A) vs "Structured Estimation" (B).
+    3. The Bayesian World: Uncertainty Block, Probability as a tool. Chart: Distribution of Possibilities.
+    4. The Operator World: Decision Block, Operators/Gates. Chart: Binary/Logic flow comparison.
+    5. Direct Comparison: Radar chart comparing attributes (Certainty, Filtering, Guessing).
+    6. Societal Critique: Line chart showing "Data Volume" vs "Decision Confidence".
+    7. Conclusion: The path forward.
+    
+    CHART SELECTION JUSTIFICATION (NO SVG):
+    - Comparison of "Guess Types": Styled HTML Cards (Goal: Inform/Compare).
+    - Bayesian Probability Nature: Doughnut Chart (Goal: Inform/Part-to-whole). Shows no "0%" options.
+    - Comparison Attributes: Radar Chart (Goal: Compare/Multivariate). Best to show the shape of the two methodologies.
+    - Societal Paradox: Line Chart (Goal: Change/Trend). Shows divergence over time.
+    -->
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Hero Section -->
+    <header class="gradient-header text-white p-12 text-center shadow-lg mb-8">
+        <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tight">Bayesian vs. Operatorology</h1>
+        <p class="text-xl md:text-2xl font-light opacity-90 max-w-3xl mx-auto">
+            "Toán học không cứu ai đó trực tiếp, nó giải phóng con người khỏi việc đoán mò."
+        </p>
+        <div class="mt-8 inline-block bg-white text-blue-900 px-6 py-2 rounded-full font-bold shadow-md">
+            Hành Trình Từ Ước Lượng Đến Quyết Định
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container mx-auto px-4 md:px-8 pb-12 space-y-16">
+
+        <!-- Section 1: Introduction & Definitions -->
+        <section>
+            <div class="max-w-4xl mx-auto text-center mb-10">
+                <h2 class="text-3xl font-bold mb-4" style="color: var(--color-primary)">1. Phân Định Khái Niệm: Hai Loại "Đoán"</h2>
+                <p class="text-gray-600 text-lg leading-relaxed">
+                    Để hiểu đúng vị trí của Bayesian, ta cần phân biệt rõ hai loại "đoán". Bayesian không phải là đoán mò thô sơ, nhưng nó vẫn chưa phải là sự chắc chắn tuyệt đối của Toán tử.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Type A Card -->
+                <div class="card p-8 border-t-8 border-gray-400">
+                    <h3 class="text-2xl font-bold mb-4 text-gray-600">Loại A: Đoán Mò Thô (Blind Guess)</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start"><span class="mr-2 text-xl">❌</span> Không mô hình</li>
+                        <li class="flex items-start"><span class="mr-2 text-xl">❌</span> Không cấu trúc</li>
+                        <li class="flex items-start"><span class="mr-2 text-xl">❌</span> Không cập nhật</li>
+                        <li class="flex items-start"><span class="mr-2 text-xl">⚠️</span> Dựa hoàn toàn vào cảm tính</li>
+                    </ul>
+                    <div class="mt-6 p-4 bg-gray-100 rounded-lg text-center font-bold text-gray-500">
+                        Bayesian KHÔNG thuộc loại này
+                    </div>
+                </div>
+
+                <!-- Type B Card -->
+                <div class="card p-8 border-t-8" style="border-color: var(--color-secondary)">
+                    <h3 class="text-2xl font-bold mb-4" style="color: var(--color-secondary)">Loại B: Đoán Có Cấu Trúc (Bayesian)</h3>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="mr-2 text-xl text-green-500">✔</span> Có giả định (Prior)</li>
+                        <li class="flex items-start"><span class="mr-2 text-xl text-green-500">✔</span> Có dữ liệu (Likelihood)</li>
+                        <li class="flex items-start"><span class="mr-2 text-xl text-green-500">✔</span> Có cập nhật (Posterior)</li>
+                        <li class="flex items-start"><span class="mr-2 text-xl">ℹ️</span> Bản chất vẫn là ước lượng</li>
+                    </ul>
+                    <div class="mt-6 p-4 rounded-lg text-center font-bold text-white shadow-md" style="background-color: var(--color-secondary)">
+                        Bayesian THUỘC loại này
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Bayesian Worldview -->
+        <section class="bg-white rounded-3xl shadow-xl p-8 md:p-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6" style="color: var(--color-secondary)">2. Thế Giới Quan Bayesian</h2>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-500 uppercase tracking-wide">Block Bất Định (Uncertainty Block)</h3>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        Trong Bayesian, không có gì bị cấm tuyệt đối. Mọi khả thể đều tồn tại, chỉ khác nhau ở con số xác suất. Nó không có "cổng lọc" (gate) để loại bỏ những trạng thái sai về mặt cấu trúc.
+                    </p>
+                    <ul class="mb-6 space-y-2">
+                        <li class="flex items-center"><span class="w-2 h-2 rounded-full mr-2" style="background-color: var(--color-accent-1)"></span> Câu hỏi: "Khả năng xảy ra là bao nhiêu?"</li>
+                        <li class="flex items-center"><span class="w-2 h-2 rounded-full mr-2" style="background-color: var(--color-accent-1)"></span> Không có trạng thái "Bất hợp lệ" (Invalid)</li>
+                    </ul>
+                    <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-800">
+                        <strong>Hệ quả:</strong> Mọi thứ là một dải sương mù của các khả năng. Ta chỉ giảm đoán, chứ không loại bỏ đoán.
+                    </div>
+                </div>
+                
+                <!-- Visualization: Donut Chart -->
+                <div class="flex flex-col items-center">
+                    <div class="chart-container">
+                        <canvas id="bayesianDonutChart"></canvas>
+                    </div>
+                    <p class="text-sm text-center text-gray-500 mt-4 italic">
+                        Biểu đồ phân phối xác suất: Không có khả năng nào bằng 0%, kể cả khả năng "Sai" (Bad State).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Direct Comparison (Radar Chart) -->
+        <section>
+            <div class="text-center mb-10 max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold mb-4" style="color: var(--color-primary)">3. Đối Đầu Trực Diện: Bayesian vs. Operatorology</h2>
+                <p class="text-gray-600">
+                    Sự khác biệt cốt lõi nằm ở cách xử lý thông tin. Bayesian tìm kiếm sự tối ưu trong vùng tối, trong khi Operatorology thiết lập luật chơi để tạo ra vùng sáng.
+                </p>
+            </div>
+
+            <div class="card p-6 md:p-10">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Text Comparison -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="p-4 rounded-lg bg-gray-50">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--color-secondary)">Bayesian (Xác Suất)</h4>
+                            <p class="text-sm text-gray-600">Dùng khi: Thiếu luật nền, thiếu dữ liệu, đang thăm dò.</p>
+                            <p class="text-sm font-semibold mt-2">Mục tiêu: Giảm Đoán Mò</p>
+                        </div>
+                        <div class="flex justify-center text-2xl font-bold text-gray-300">VS</div>
+                        <div class="p-4 rounded-lg bg-gray-50">
+                            <h4 class="font-bold text-lg mb-2" style="color: var(--color-accent-2)">Operatorology (Toán Tử)</h4>
+                            <p class="text-sm text-gray-600">Dùng khi: Luật đã xác lập, cần loại bỏ hành vi sai.</p>
+                            <p class="text-sm font-semibold mt-2">Mục tiêu: Loại Bỏ Đoán Mò</p>
+                        </div>
+                    </div>
+
+                    <!-- Visualization: Radar Chart -->
+                    <div class="lg:col-span-2">
+                        <div class="chart-container">
+                            <canvas id="comparisonRadarChart"></canvas>
+                        </div>
+                        <p class="text-sm text-center text-gray-500 mt-4">
+                            So sánh cấu trúc: Operatorology (Cam) mở rộng tối đa về tính chắc chắn và lọc, trong khi Bayesian (Tím) mạnh về tính linh hoạt và ước lượng.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: The Logic Flow (HTML Diagram) -->
+        <section class="max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center" style="color: var(--color-primary)">4. Cơ Chế Vận Hành</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                
+                <!-- Bayesian Flow -->
+                <div class="flex flex-col items-center">
+                    <h3 class="text-xl font-bold mb-6 text-center" style="color: var(--color-secondary)">Quy Trình Bayesian</h3>
+                    <div class="w-full space-y-2">
+                        <div class="flow-step bayesian-bg">Dữ Liệu Đầu Vào (Input)</div>
+                        <div class="arrow-down"></div>
+                        <div class="flow-step bayesian-bg opacity-90">Kết hợp với Giả Định (Prior)</div>
+                        <div class="arrow-down"></div>
+                        <div class="flow-step bayesian-bg opacity-80">Tính Toán Xác Suất (Likelihood)</div>
+                        <div class="arrow-down"></div>
+                        <div class="flow-step bayesian-bg opacity-70 border-4 border-dashed border-white">
+                            Kết Quả: Niềm Tin Cập Nhật (Posterior)<br>
+                            <span class="text-sm font-light">(Vẫn là ước lượng %)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operator Flow -->
+                <div class="flex flex-col items-center">
+                    <h3 class="text-xl font-bold mb-6 text-center" style="color: var(--color-accent-2)">Quy Trình Toán Tử</h3>
+                    <div class="w-full space-y-2">
+                        <div class="flow-step operator-bg">Trạng Thái Cần Quyết Định</div>
+                        <div class="arrow-down"></div>
+                        <div class="flow-step bg-gray-800 text-white border-4 border-red-500 relative">
+                            <span class="text-2xl block mb-1">🛑 CỔNG LỌC (GATE)</span>
+                            <span class="text-sm font-light">Kiểm tra: Có vi phạm luật nền không?</span>
+                        </div>
+                        
+                        <!-- Branching visualization using grid -->
+                        <div class="grid grid-cols-2 gap-4 mt-4 w-full">
+                            <div class="p-3 bg-red-100 text-red-800 rounded text-center border border-red-300">
+                                <strong>Vi Phạm</strong><br>
+                                <span class="text-xs">Loại bỏ (Invalid)</span>
+                            </div>
+                            <div class="p-3 bg-green-100 text-green-800 rounded text-center border border-green-300">
+                                <strong>Hợp Lệ</strong><br>
+                                <span class="text-xs">Chấp nhận (Valid)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Societal Paradox (Line Chart) -->
+        <section class="bg-gray-800 text-white rounded-3xl shadow-2xl p-8 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-4 text-white">5. Nghịch Lý Của Sự Hiện Đại</h2>
+                <p class="text-gray-300 mb-8 text-lg">
+                    Xã hội hiện đại có nhiều dữ liệu hơn bao giờ hết, nhưng sự quyết đoán lại suy giảm. Chúng ta lạm dụng xác suất để trì hoãn các quyết định khó khăn, tạo ra trạng thái "do dự vĩnh viễn".
+                </p>
+
+                <div class="chart-container" style="background-color: rgba(255,255,255,0.05); border-radius: 1rem; padding: 1rem;">
+                    <canvas id="paradoxLineChart"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-300">
+                    <div class="p-4 rounded border border-gray-600 bg-gray-700">
+                        <strong class="text-white block mb-1">Hiện tượng:</strong> Dữ liệu tăng, nhưng luật nền không được thiết lập.
+                    </div>
+                    <div class="p-4 rounded border border-gray-600 bg-gray-700">
+                        <strong class="text-white block mb-1">Kết quả:</strong> Thay vì nói "Đủ rồi" (Toán tử), ta hỏi "Khả năng bao nhiêu?" (Xác suất).
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <footer class="text-center py-12 max-w-3xl mx-auto">
+            <h2 class="text-4xl font-black mb-6" style="color: var(--color-primary)">Kết Luận</h2>
+            <blockquote class="text-2xl italic text-gray-600 border-l-8 border-yellow-500 pl-6 py-2 bg-white shadow-md rounded-r-lg">
+                "Xác suất giúp con người đoán tốt hơn.<br>
+                <span style="color: var(--color-accent-2)">Toán tử giúp con người không cần đoán nữa."</span>
+            </blockquote>
+            <p class="mt-8 text-lg text-gray-500">
+                Hãy đóng khối đoán khi luật đã rõ, và dũng cảm mở khối Toán tử.
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Scripts for Chart.js -->
+    <script>
+        // --- UTILITY: Label Wrapping Logic (16 chars) ---
+        function wrapLabel(label) {
+            const MAX_LENGTH = 16;
+            if (label.length <= MAX_LENGTH) return label;
+            
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + ' ' + words[i]).length <= MAX_LENGTH) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- UTILITY: Common Tooltip Configuration ---
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: Bayesian Distribution (Donut) ---
+        const ctxDonut = document.getElementById('bayesianDonutChart').getContext('2d');
+        
+        // Data prep with wrapping
+        const donutLabels = ["Khả năng Tốt (Good)", "Khả năng Trung bình", "Khả năng Xấu (Bad State)"].map(wrapLabel);
+
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: donutLabels,
+                datasets: [{
+                    label: 'Phân Phối Xác Suất',
+                    data: [45, 35, 20], // Even bad states have probability > 0
+                    backgroundColor: [
+                        '#003f5c', // Good
+                        '#bc5090', // Neutral
+                        '#ff6361'  // Bad (Still exists!)
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { family: 'Roboto', size: 12 } }
+                    },
+                    tooltip: commonTooltipConfig,
+                    title: {
+                        display: true,
+                        text: 'Trong Bayesian: Không Có Gì Là 0%',
+                        font: { size: 16, weight: 'bold' },
+                        color: '#003f5c'
+                    }
+                }
+            }
+        });
+
+        // --- CHART 2: Comparison Radar ---
+        const ctxRadar = document.getElementById('comparisonRadarChart').getContext('2d');
+        
+        const radarLabels = [
+            "Tính Xác Định (Certainty)", 
+            "Tính Linh Hoạt (Flexibility)", 
+            "Cổng Lọc (Filtering)", 
+            "Yếu Tố Đoán (Guessing)", 
+            "Tuân Thủ Luật (Strictness)"
+        ].map(wrapLabel);
+
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: radarLabels,
+                datasets: [
+                    {
+                        label: 'Bayesian (Ước Lượng)',
+                        data: [40, 90, 20, 80, 30], // Flexible, but guessing high
+                        fill: true,
+                        backgroundColor: 'rgba(88, 80, 141, 0.2)', // Purple transparent
+                        borderColor: '#58508d',
+                        pointBackgroundColor: '#58508d',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#58508d'
+                    },
+                    {
+                        label: 'Operatorology (Quyết Định)',
+                        data: [100, 20, 100, 0, 100], // Rigid, Certain, No Guessing
+                        fill: true,
+                        backgroundColor: 'rgba(255, 99, 97, 0.2)', // Orange transparent
+                        borderColor: '#ff6361',
+                        pointBackgroundColor: '#ff6361',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#ff6361'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: '#e5e7eb' },
+                        grid: { color: '#e5e7eb' },
+                        pointLabels: {
+                            font: { size: 11, family: 'Roboto' },
+                            color: '#4b5563'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: {
+                    tooltip: commonTooltipConfig,
+                    legend: { position: 'top' }
+                }
+            }
+        });
+
+        // --- CHART 3: Societal Paradox (Line) ---
+        const ctxLine = document.getElementById('paradoxLineChart').getContext('2d');
+
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['2000', '2005', '2010', '2015', '2020', '2025'],
+                datasets: [
+                    {
+                        label: 'Dữ Liệu Thu Thập (Data Volume)',
+                        data: [20, 35, 55, 85, 130, 200], // Exponential growth
+                        borderColor: '#bc5090', // Pink
+                        backgroundColor: '#bc5090',
+                        tension: 0.4,
+                        borderWidth: 3
+                    },
+                    {
+                        label: 'Độ Quyết Đoán (Decisiveness)',
+                        data: [80, 75, 60, 50, 40, 30], // Decline
+                        borderColor: '#ffa600', // Yellow
+                        backgroundColor: '#ffa600',
+                        tension: 0.4,
+                        borderWidth: 3,
+                        borderDash: [5, 5] // Dashed to show "weakness"
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: commonTooltipConfig,
+                    legend: { labels: { color: 'white' } },
+                    title: {
+                        display: true,
+                        text: 'Nghịch Lý: Dữ Liệu Tăng - Quyết Định Giảm',
+                        color: 'white',
+                        font: { size: 16 }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#9ca3af' },
+                        grid: { color: 'rgba(255,255,255,0.1)' }
+                    },
+                    y: {
+                        ticks: { color: '#9ca3af' },
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
